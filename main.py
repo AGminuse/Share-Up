@@ -4,7 +4,12 @@ import zipfile
 app = Flask(__name__)
 
 app.secret_key = 'super secret key'
-UPLOAD_FOLDER = './files'
+
+UPLOAD_FOLDER = './Uploads'
+if not os.path.exists("./Uploads"):
+    os.mkdir("./Uploads")
+
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 history=[]
 @app.route('/', defaults={'req_path': ''},methods=['GET', 'POST'])
