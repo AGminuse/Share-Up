@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Up</title>
+</head>
+
+<body>
+    <div class="left">
+
+        <div class="browser-container">
+            <div class="path-header">
+                <div class="controll-buttons">
+                    <a id="return" onclick="history.back()">&#8672;</a>
+                    <a id="forword" onclick="history.forward()"> &#8674;</a>
+                </div>
+
+                <div class="path-input">
+                    <input class="textarea" type="text" name=textarea value="{{path}}">
+                    <!-- &#8981; for search cahrectar -->
+                </div>
+                <button id="submit_path" onclick="submit_path()"><a>go</a></button>
+            </div>
+            <div class="directores">
+                {% for folder in folders %}
+                <li>
+
+                    <a href="{{ (request.path + '/' if request.path != '/' else '') + folder }}">
+                        {{ (request.path + '/' if request.path != '/' else '') +folder }}
+                    </a>
+                    <!--<a  href="{{ '$createzip$'+(request.path + '/' if request.path != '/' else '') + folder }}">download
+                        folder</a> -->
+
+                    <p class="download-folder"><a
+                            href="{{ '$createzip$'+(request.path + '/' if request.path != '/' else '') + folder }}">Download
+                            Folder</a></p>
+                </li>
+
+                {% endfor %}
+                {% for file in files %}
+                <li>
+                    <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
+                        {{ file }}
+                    </a>
+                </li>
+
+                {% endfor %}
+            </div>
+        </div>
+        <div class="upload-container">
+            <form method=post enctype=multipart/form-data>
+                <input class="upload-btn" type=file name=file multiple>
+                <input type=submit value=Upload>
+            </form>
+        </div>
+    </div>
+    <div class="right">
+
+    </div>
+    <script>
+        function submit_path() {
+            x = document.getElementById("path_area");
+            window.location.replace(x.value);
+        }
+        let back = document.getElementById("return");
+        let forw = document.getElementById("forword");
+        if ({{ returnback }}>= 1) {
+            back.style.cursor = "";
+        }else {
+            back.style.color = "rgba(0, 0, 0, {{returnback}})";
+        }
+        if ({{ forword }}>= 1) {
+            forw.style.cursor = "";
+        }else {
+            forw.style.color = "rgba(0, 0, 0, {{forword}})";
+        }
+
+
+
+
+    </script>
+</body>
+<style>
+    * {
+        font-family: Monospace, Sans-serif, Helvetica;
+        text-decoration: none;
+        font-size: large;
+        color: black;
+        outline: 0;
+    }
+
+    body {
+        margin: 0 auto;
+        display: flex;
+        height: 100vh;
+    }
+
+    .left {
+        background-color: #e3f0e6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+
+    .browser-container {
+        width: 60%;
+        height: 75%;
+    }
+
+    .browser-container a {
+        text-align: start;
+        width: 100%;
+        padding-left: 3%;
+        color: #e3f0e6;
+    }
+
+    .path-header {
+        position: relative;
+        box-shadow: 0 4px 10px -6px #00000044;
+        display: flex;
+        align-items: center;
+        padding-left: 3.2%;
+        height: 11%;
+        background-color: white;
+        border: 1px solid black;
+        border-bottom: 0;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .path-header button {
+        display: flex;
+        height: fit-content;
+        background: transparent;
+        border: transparent;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .controll-buttons {
+        display: flex;
+        width: 10%;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 1%;
+    }
+
+    .controll-buttons button {
+        padding: 1%;
+    }
+
+    .controll-buttons a {
+        display: inline;
+        cursor: pointer;
+        color: black;
+        font-size: 28px;
+    }
+
+    .path-input {
+        display: flex;
+        width: 80%;
+        padding-left: 1%;
+    }
+
+    .textarea {
+        width: 100%;
+        font-family: Monospace, Sans-serif, Helvetica;
+
+    }
+
+    .textarea:focus {
+        border: 2px solid green;
+    }
+    #submit_path a {
+        text-align: center;
+        font-size: larger;
+        padding-left: 35%;
+        padding-bottom: 20%;
+        color: black;
+    }
+
+    .directores {
+        height: 95%;
+        background-color: #ffffff;
+        overflow: auto;
+        border: 1px black solid;
+        border-top: 0;
+        border-radius: 2px;
+    }
+
+    .directores li {
+        display: flex;
+        margin: 3%;
+        color: #ffffff;
+        background-color: #396C5D;
+        justify-content: space-around;
+        align-items: center;
+        border: solid 1px transparent;
+        border-radius: 6px;
+        height: 10%;
+        cursor: pointer;
+        transition: 0.4s;
+    }
+
+    .directores li:hover {
+        box-shadow: 0px 0px 15px #0a6ab8;
+    }
+
+    .download-folder {
+        width: 100%;
+        text-align: center;
+    }
+
+    .download-folder a {
+        border: solid 1px transparent;
+        border-radius: 7px;
+        padding: 1% 2% 1% 2%;
+        font-size: medium;
+        background-color: #2c455a;
+        cursor: pointer;
+        transform: 0.3s;
+    }
+
+    .download-folder a:hover {
+        background-color: #103c61;
+    }
+
+    .forword {
+        cursor: pointer;
+    }
+
+    .return {
+        cursor: pointer;
+    }
+    @media only screen and (max-width: 600px) {
+        .directores{display: none;}
+    }
+</style>
+
+</html>
